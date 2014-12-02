@@ -3,7 +3,7 @@ import MySQLdb
 import json
 app = Flask(__name__)
 
-db = MySQLdb.connect( user='root', host='localhost', port=3306, db='gituserinfo' )
+db = MySQLdb.connect( user='root', host='localhost', port=3306, db='cricdata' )
 
 @app.route("/")
 def hello():
