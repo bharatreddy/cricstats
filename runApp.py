@@ -7,7 +7,7 @@ db = MySQLdb.connect( user='root', host='localhost', port=3306, db='cricdata' )
 
 @app.route("/")
 def hello():
-    return render_template('index.html')
+    return render_template('index_cric.html')
 
 if __name__ == "__main__":
     app.debug=True
