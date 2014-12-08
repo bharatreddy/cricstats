@@ -4,7 +4,8 @@ var callback = function (dataBatsman) {
   
   var dataset = new Array ();
   for (var i = 0; i < dataBatsman.length; i++) {
-    dataset[i] = [ dataBatsman[i]['Matches'], dataBatsman[i]['Runs'], dataBatsman[i]['Name'], dataBatsman[i]['StrikeRate'] ];
+    dataset[i] = [ dataBatsman[i]['Matches'], dataBatsman[i]['Runs'], dataBatsman[i]['Balls'], 
+    dataBatsman[i]['Name'], dataBatsman[i]['StrikeRate'] ];
   }
 
   var data = dataBatsman.slice();
@@ -36,7 +37,7 @@ var callback = function (dataBatsman) {
       .attr("class", "tooltip")
       .style("opacity", 0);
   // don't want dots overlapping axis, so add in buffer to data domain
-  xScale.domain([d3.min(data, xValue) + 20, d3.max(data, xValue)+10]);
+  xScale.domain([d3.min(data, xValue), d3.max(data, xValue)+10]);
   yScale.domain([d3.min(data, yValue), d3.max(data, yValue)+100]);
 
 // x-axis
@@ -77,7 +78,7 @@ var callback = function (dataBatsman) {
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", function(d) { return d.Matches/5. })
+      .attr("r", function(d) { return 5. })
       .attr("cx", xMap)
       .attr("cy", yMap)
       .style("fill", function(d) { return outColor(d.Matches);}) 
@@ -85,9 +86,9 @@ var callback = function (dataBatsman) {
           tooltip.transition()
                .duration(200)
                .style("opacity", 1.);
-          tooltip.html(d.Name + "<br/> Matches : " + d.Matches
+          tooltip.html(d.Name + "<br/> Matches : " + d.Matches + "<br/> Balls : " + d.Balls
           + "<br/> Runs : " + d.Runs + "<br/> Strikerate : " + d.StrikeRate )
-               .style("left", 750 + "px")
+               .style("left", 725 + "px")
                .style("top", 70 + "px");
       })
       .on("mouseout", function(d) {
@@ -96,23 +97,24 @@ var callback = function (dataBatsman) {
                .style("opacity", 0);
       });
       // now build the legend
-        legend = svg.selectAll(".lentry")
+      legend = svg.selectAll(".lentry")
                           .data(outColor.domain())
                           .enter()
                           .append("g")
                           .attr("class","leg")
-        legend.append("rect")
+     legend.append("rect")
               .attr("y", function(d,i) { return(i*40)})
-              .attr("width","40px")
+              .attr("x", function(d,i) { return(775)})
+              .attr("width","20px")
               .attr("height","40px")
               .attr("fill", function(d) { return outColor(d) ; })
               .attr("stroke","#7f7f7f")
               .attr("stroke-width","0.5");
-        legend.append("text")
+    legend.append("text")
               .attr("class", "legText")
-              .text(function(d, i) { return "≤ "+commasFormatter(outageThresholds[i]) ; })
-              .attr("x", 45)
-              .attr("y", function(d, i) { return (40 * i) + 20 + 4; })
+              .text(function(d, i) { return commasFormatter(outageThresholds[i])+" Matches" ; })
+              .attr("x", 800)
+              .attr("y", function(d, i) { return (40 * i) + 20 + 4; });
 
       // .on("click", function(d) 
       // { 
