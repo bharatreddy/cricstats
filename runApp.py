@@ -3,27 +3,23 @@ import MySQLdb
 import json
 app = Flask(__name__)
 
-# db = MySQLdb.connect( user='root', host='localhost', port=3306, db='cricdata' )
-db = MySQLdb.connect( user='root', host='localhost', port=3306, db='gituserinfo' )
+db = MySQLdb.connect( user='root', host='localhost', port=3306, db='cricdata' )
+# db = MySQLdb.connect( user='root', host='localhost', port=3306, db='gituserinfo' )
 
-@app.route("/dataUser")
+@app.route("/dataBatsman")
 #, userDict=userD3List
-def dataUser():
+def dataBatsman():
     # Query the database for some initial stuff
-    queryMainGraph = """
-            SELECT userdetail.nflwr, count(repocontr.login), repocontr.login
-            FROM repocontr JOIN userdetail 
-            ON repocontr.login=userdetail.login 
-            GROUP BY repocontr.login;
+    queryBatsman = """
+            SELECT Name, Runs, Balls, StrikeRate, Matches
+            FROM Batsman
             """
-    db.query( queryMainGraph )
-    userSmryRet = db.store_result().fetch_row( maxrows=0 )
-    # print userSmryRet
-    userdet = [ s for s in userSmryRet ]
-
-    return json.dumps( [ { 'login': userdet[r][2], 'nflwrs':userdet[r][0], 'nrepos':userdet[r][1] }
-         for r in range( len( userdet ) ) ] )
-
+    db.query( queryBatsman )
+    batsmanSmryRet = db.store_result().fetch_row( maxrows=0 )
+    batsmandet = [ s for s in batsmanSmryRet ]
+    return json.dumps( [ { 'Name': batsmandet[r][0], 'Runs':batsmandet[r][1], \
+    	'Balls':batsmandet[r][2],'StrikeRate':batsmandet[r][3], 'Matches':batsmandet[r][4] }
+         for r in range( len( batsmandet ) ) ] )
 
 @app.route("/")
 def hello():
