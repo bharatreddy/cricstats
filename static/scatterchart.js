@@ -14,18 +14,7 @@ var callback = function (dataUser) {
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 375 - margin.top - margin.bottom;
-  // // Commenting out the fish eye part
-  // fisheye 
-  // var fisheye = d3.fisheye.circular()
-  //   .radius(100)
-  //   .distortion(2);
 
-  /* 
-   * value accessor - returns the value to encode for a given data object.
-   * scale - maps value to a visual display encoding, such as a pixel position.
-   * map function - maps from data value to display value
-   * axis - sets up axis
-   */ 
   // setup x 
   var xValue = function(d) { return d.nflwrs;}, // data -> value
       xScale = d3.scale.linear().range([0, width]), // value -> display
@@ -37,35 +26,20 @@ var callback = function (dataUser) {
       yMap = function(d) { return yScale(yValue(d));}, // data -> display
       yAxis = d3.svg.axis().scale(yScale).orient("left");
   // add the graph canvas to the body of the webpage
-  var svg = d3.select("#d3Plot").append("svg")
+  var svg = d3.select("#d3plotBatsman").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   // add the tooltip area to the webpage
-  var tooltip = d3.select("#d3Plot").append("div")
+  var tooltip = d3.select("#d3plotBatsman").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
   // don't want dots overlapping axis, so add in buffer to data domain
   xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1000]);
   yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
-  // // Commenting out the fish eye part, wasnt working that well
-  // // was slow for large number of datapoints.
-  // svg.on("mousemove", function() {
-  // fisheye.focus(d3.mouse(this));
-  // svg.selectAll("circle")
-  //     .each(function(d) {
-  //       d.x = xMap(d);
-  //       d.y = yMap(d);
-  //       d.z = xMap(d)/500.;
-  //       d.fisheye = fisheye(d);
-  //     })
-  //     .attr("cx", function(d) { return d.fisheye.x; })
-  //     .attr("cy", function(d) { return d.fisheye.y; })
-  //   .attr("r", function(d) { return d.fisheye.z * 2; })
-  // });
 
-  // x-axis
+// x-axis
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
@@ -98,11 +72,11 @@ var callback = function (dataUser) {
       .on("mouseover", function(d) {
           tooltip.transition()
                .duration(200)
-               .style("opacity", .9);
+               .style("opacity", 1.);
           tooltip.html(d.login + "<br/> Followers : " + xValue(d) 
           + "<br/> Repositories : " + yValue(d) )
-               .style("left", (d3.event.pageX + 5) + "px")
-               .style("top", (d3.event.pageY - 28) + "px");
+               .style("left", 800 + "px")
+               .style("top", 75 + "px");
       })
       .on("mouseout", function(d) {
           tooltip.transition()
