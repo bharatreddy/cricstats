@@ -9,6 +9,13 @@ db = MySQLdb.connect( user='root', host='localhost', port=3306, db='cricdata' )
 def hello():
     return render_template('index_cric.html')
 
+@app.route("/<pagename>")
+def regularpage( pagename=None ):
+    """
+    if route not found
+    """
+    return "No such page as " + pagename + " please go back!!! "
+
 if __name__ == "__main__":
     app.debug=True
     app.run()
