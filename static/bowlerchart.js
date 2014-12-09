@@ -82,7 +82,7 @@ var callback = function (dataBatsman) {
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", function(d) { return 10. })
+      .attr("r", function(d) { return 5. })
       .attr("cx", xMap)
       .attr("cy", yMap)
       .style("fill", function(d) { return outColor(d.Matches);}) 
@@ -118,7 +118,6 @@ var callback = function (dataBatsman) {
               .attr("class", "legText")
               .text(function(d, i) { return commasFormatter(outageThresholds[i])+" Matches" ; })
               .attr("x", 800)
-              .attr("fill", "#fff")
               .attr("y", function(d, i) { return (40 * i) + 20 + 4; });
 
       // .on("click", function(d) 

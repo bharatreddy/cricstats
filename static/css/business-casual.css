@@ -11,6 +11,8 @@ body {
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+    color: steelblue;
+    fill: white;
 }
 
 h1,
