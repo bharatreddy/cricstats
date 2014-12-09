@@ -126,6 +126,16 @@ var callback = function (dataBatsman) {
       //         window.open('https://github.com/'+d.Name,'_blank'); 
       // }); 
 
+    // Zoom into data (.dot)
+    // Scale Changes as we zoom
+    svg.call(d3.behavior.zoom().x(xScale).y(yScale).on("zoom", zoom));  // Call funtion zoom
+    function zoom() {
+        svg.selectAll(".dot")
+            .attr("cx", function(d) { return xScale(xValue(d));})
+            .attr("cy", function(d) { return yScale(yValue(d));});
+        d3.select('.x.axis').call(xAxis);
+        d3.select('.y.axis').call(yAxis);
+    }
 };
 d3.json("/dataBatsman", callback);
 dataset = callback;
