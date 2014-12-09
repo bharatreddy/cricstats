@@ -1,44 +1,44 @@
 // Written by Bharat Kunduri
 // Based on the D3 Scatter Plot Example --> http://bl.ocks.org/weiglemc/6185069
-var callback = function (dataBatsman) {
+var callback = function (dataBowler) {
   
   var dataset = new Array ();
-  for (var i = 0; i < dataBatsman.length; i++) {
-    dataset[i] = [ dataBatsman[i]['Matches'], dataBatsman[i]['Runs'], dataBatsman[i]['Balls'], 
-    dataBatsman[i]['Name'], dataBatsman[i]['StrikeRate'] ];
+  for (var i = 0; i < dataBowler.length; i++) {
+    dataset[i] = [ dataBowler[i]['Matches'], dataBowler[i]['Runs'], dataBowler[i]['Balls'], 
+    dataBowler[i]['Name'], dataBowler[i]['RunRate'], dataBowler[i]['Wickets'] ];
   }
 
-  var data = dataBatsman.slice();
-  var nRepoFn = function(d) { return d.Runs; }
-  var dataXFn = function(d) { return d.StrikeRate; }
+  var data = dataBowler.slice();
+  var nRepoFn = function(d) { return d.Wickets; }
+  var dataXFn = function(d) { return d.RunRate; }
 
   var margin = {top: 20, right: 10, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
     height = 375 - margin.top - margin.bottom;
 
   // setup x 
-  var xValue = function(d) { return d.StrikeRate;}, // data -> value
+  var xValue = function(d) { return d.RunRate;}, // data -> value
       xScale = d3.scale.linear().range([0, width]), // value -> display
       xMap = function(d) { return xScale(xValue(d));}, // data -> display
       xAxis = d3.svg.axis().scale(xScale).orient("bottom");
   // setup y
-  var yValue = function(d) { return d.Runs;}, // data -> value
+  var yValue = function(d) { return d.Wickets;}, // data -> value
       yScale = d3.scale.linear().range([height, 0]), // value -> display
       yMap = function(d) { return yScale(yValue(d));}, // data -> display
       yAxis = d3.svg.axis().scale(yScale).orient("left");
   // add the graph canvas to the body of the webpage
-  var svg = d3.select("#d3plotBatsman").append("svg")
+  var svg = d3.select("#d3plotBowler").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   // add the tooltip area to the webpage
-  var tooltip = d3.select("#d3plotBatsman").append("div")
+  var tooltip = d3.select("#d3plotBowler").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
   // don't want dots overlapping axis, so add in buffer to data domain
-  xScale.domain([d3.min(data, xValue), d3.max(data, xValue)+10]);
-  yScale.domain([d3.min(data, yValue), d3.max(data, yValue)+100]);
+  xScale.domain([d3.min(data, xValue), d3.max(data, xValue)+1]);
+  yScale.domain([d3.min(data, yValue), d3.max(data, yValue)+10]);
 
 // x-axis
   svg.append("g")
@@ -50,7 +50,7 @@ var callback = function (dataBatsman) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("StrikeRate");
+      .text("RunRate");
 // y-axis
   svg.append("g")
       .attr("class", "y axis")
@@ -63,7 +63,7 @@ var callback = function (dataBatsman) {
       .attr("font-family", "sans-serif")
       .attr("font-size", "20px")
       .style("text-anchor", "end")
-      .text("Runs Scored");
+      .text("Wickets");
 // draw dots
 // Set up fill color for dots
 // setup fill color
@@ -82,7 +82,7 @@ var callback = function (dataBatsman) {
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", function(d) { return 5. })
+      .attr("r", function(d) { return 10. })
       .attr("cx", xMap)
       .attr("cy", yMap)
       .style("fill", function(d) { return outColor(d.Matches);}) 
@@ -91,7 +91,7 @@ var callback = function (dataBatsman) {
                .duration(200)
                .style("opacity", 1.);
           tooltip.html(d.Name + "<br/> Matches : " + d.Matches + "<br/> Balls : " + d.Balls
-          + "<br/> Runs : " + d.Runs + "<br/> Strikerate : " + d.StrikeRate )
+          + "<br/> Wickets : " + d.Wickets + "<br/> Runs : " + d.Runs + "<br/> Runrate : " + d.RunRate )
                .style("left", 725 + "px")
                .style("top", 70 + "px");
       })
@@ -118,6 +118,7 @@ var callback = function (dataBatsman) {
               .attr("class", "legText")
               .text(function(d, i) { return commasFormatter(outageThresholds[i])+" Matches" ; })
               .attr("x", 800)
+              .attr("fill", "#fff")
               .attr("y", function(d, i) { return (40 * i) + 20 + 4; });
 
       // .on("click", function(d) 
@@ -126,7 +127,7 @@ var callback = function (dataBatsman) {
       // }); 
 
 };
-d3.json("/dataBatsman", callback);
+d3.json("/dataBowler", callback);
 dataset = callback;
 // window.open('www.yourdomain.com','_blank');
 // var data = [[5,3], [10,17], [15,4], [2,8]];
