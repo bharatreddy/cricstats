@@ -17,15 +17,15 @@ var callback = function (dataBowler) {
     height = 375 - margin.top - margin.bottom;
 
   // setup x 
-  var xValue = function(d) { return d.RunRate;}, // data -> value
-      xScale = d3.scale.linear().range([0, width]), // value -> display
-      xMap = function(d) { return xScale(xValue(d));}, // data -> display
-      xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+  var xValueBowler = function(d) { return d.RunRate;}, // data -> value
+      xScaleBowler = d3.scale.linear().range([0, width]), // value -> display
+      xMapBowler = function(d) { return xScaleBowler(xValueBowler(d));}, // data -> display
+      xAxisBowler = d3.svg.axis().scale(xScaleBowler).orient("bottom");
   // setup y
-  var yValue = function(d) { return d.Wickets;}, // data -> value
-      yScale = d3.scale.linear().range([height, 0]), // value -> display
-      yMap = function(d) { return yScale(yValue(d));}, // data -> display
-      yAxis = d3.svg.axis().scale(yScale).orient("left");
+  var yValueBowler = function(d) { return d.Wickets;}, // data -> value
+      yScaleBowler = d3.scale.linear().range([height, 0]), // value -> display
+      yMapBowler = function(d) { return yScaleBowler(yValueBowler(d));}, // data -> display
+      yAxisBowler = d3.svg.axis().scale(yScaleBowler).orient("left");
   // add the graph canvas to the body of the webpage
   var svg = d3.select("#d3plotBowler").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -37,14 +37,14 @@ var callback = function (dataBowler) {
       .attr("class", "tooltip")
       .style("opacity", 0);
   // don't want dots overlapping axis, so add in buffer to data domain
-  xScale.domain([d3.min(data, xValue), d3.max(data, xValue)+1]);
-  yScale.domain([d3.min(data, yValue), d3.max(data, yValue)+10]);
+  xScaleBowler.domain([d3.min(data, xValueBowler), d3.max(data, xValueBowler)+1]);
+  yScaleBowler.domain([d3.min(data, yValueBowler), d3.max(data, yValueBowler)+10]);
 
 // x-axis
   svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "xBowler axisBowler x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
+      .call(xAxisBowler)
     .append("text")
       .attr("class", "label")
       .attr("x", width)
@@ -53,8 +53,8 @@ var callback = function (dataBowler) {
       .text("RunRate");
 // y-axis
   svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
+      .attr("class", "yBowler axisBowler y axis")
+      .call(yAxisBowler)
     .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
@@ -83,8 +83,8 @@ var callback = function (dataBowler) {
     .enter().append("circle")
       .attr("class", "dot")
       .attr("r", function(d) { return 10. })
-      .attr("cx", xMap)
-      .attr("cy", yMap)
+      .attr("cx", xMapBowler)
+      .attr("cy", yMapBowler)
       .style("fill", function(d) { return outColor(d.Matches);}) 
       .on("mouseover", function(d) {
           tooltip.transition()
@@ -127,13 +127,13 @@ var callback = function (dataBowler) {
       // }); 
     // Zoom into data (.dot)
     // Scale Changes as we zoom
-    svg.call(d3.behavior.zoom().x(xScale).y(yScale).on("zoom", zoom));  // Call funtion zoom
+    svg.call(d3.behavior.zoom().x(xScaleBowler).y(yScaleBowler).on("zoom", zoom));  // Call funtion zoom
     function zoom() {
         svg.selectAll(".dot")
-            .attr("cx", function(d) { return xScale(xValue(d));})
-            .attr("cy", function(d) { return yScale(yValue(d));});
-        d3.select('.x.axis').call(xAxis);
-        d3.select('.y.axis').call(yAxis);
+            .attr("cx", function(d) { return xScaleBowler(xValueBowler(d));})
+            .attr("cy", function(d) { return yScaleBowler(yValueBowler(d));});
+        d3.select('.xBowler.axisBowler').call(xAxisBowler);
+        d3.select('.yBowler.axisBowler').call(yAxisBowler);
     }
 };
 d3.json("/dataBowler", callback);
