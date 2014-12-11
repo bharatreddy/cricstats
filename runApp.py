@@ -36,17 +36,33 @@ def dataBowler():
 
 @app.route("/dataGraph")
 def dataGraph():
-    # Query the database for Bowler stats
+    # Query the database for stats related to the graph.
     queryGraph = """
             SELECT Batsman, Bowler, StrikeRate, Matches, Dismissed
-            FROM PlayerGraph
+            FROM PlayerGraph limit 10
             """
     db.query( queryGraph )
     graphSmryRet = db.store_result().fetch_row( maxrows=0 )
     graphdet = [ s for s in graphSmryRet ]
-    return json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
+    linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
         'Matches':graphdet[r][3],'Dismissed':graphdet[r][4] }
          for r in range( len( graphdet ) ) ] )
+    queryNodes = """
+            SELECT Name From Batsman
+            UNION
+            SELECT Name From Bowler
+            limit 10
+            """
+    db.query( queryNodes )
+    nodesSmryRet = db.store_result().fetch_row( maxrows=0 )
+    nodesdet = [ s for s in nodesSmryRet ]
+    nodesList = json.dumps( [ { 'Batsman': nodesdet[r][0] }
+         for r in range( len( nodesdet ) ) ] )
+    graphJson = {}
+    graphJson['links'] = linksList
+    graphJson['nodes'] = nodesList
+    print nodesList
+    return nodesList
 
 @app.route("/")
 def hello():

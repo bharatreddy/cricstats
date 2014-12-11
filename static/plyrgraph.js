@@ -3,15 +3,15 @@
 var callback = function (dataGraph) {
   
   var dataset = new Array ();
-  for (var i = 0; i < dataBatsman.length; i++) {
-    dataset[i] = [ dataBatsman[i]['Batsman'], dataBatsman[i]['Bowler'], 
-    dataBatsman[i]['StrikeRate'], dataBatsman[i]['Matches'], dataBatsman[i]['Dismissed'] ];
+  for (var i = 0; i < dataGraph.length; i++) {
+    dataset[i] = [ dataGraph[i]['Batsman'], dataGraph[i]['Bowler'], 
+    dataGraph[i]['StrikeRate'], dataGraph[i]['Matches'], dataGraph[i]['Dismissed'] ];
   }
 
 var width = 960,
     height = 500
 
-var svg = d3.select("#d3plotBatsman").append("svg")
+var svg = d3.select("#d3GraphPlyr").append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -21,20 +21,20 @@ var force = d3.layout.force()
     .charge(-100)
     .size([width, height]);  
 
-force.nodes(json.nodes)
-     .links(json.links)
-     .start();
+// force.nodes(json.nodes)
+//      .links(json.links)
+//      .start();
 
-  var link = svg.selectAll(".link")
-      .data(json.links)
-    .enter().append("line")
-      .attr("class", "link");
+//   var link = svg.selectAll(".link")
+//       .data(json.links)
+//     .enter().append("line")
+//       .attr("class", "link");
 
-  var node = svg.selectAll(".node")
-      .data(json.nodes)
-    .enter().append("g")
-      .attr("class", "node")
-      .call(force.drag);
+//   var node = svg.selectAll(".node")
+//       .data(json.nodes)
+//     .enter().append("g")
+//       .attr("class", "node")
+//       .call(force.drag);
 
   // node.append("image")
   //     .attr("xlink:href", "https://github.com/favicon.ico")
@@ -48,14 +48,14 @@ force.nodes(json.nodes)
   //     .attr("dy", ".35em")
   //     .text(function(d) { return d.name });
 
-  force.on("tick", function() {
-    link.attr("x1", function(d) { return d.Batsman.x; })
-        .attr("y1", function(d) { return d.Batsman.y; })
-        .attr("x2", function(d) { return d.Bowler.x; })
-        .attr("y2", function(d) { return d.Bowler.y; });
+  // force.on("tick", function() {
+  //   link.attr("x1", function(d) { return d.Batsman.x; })
+  //       .attr("y1", function(d) { return d.Batsman.y; })
+  //       .attr("x2", function(d) { return d.Bowler.x; })
+  //       .attr("y2", function(d) { return d.Bowler.y; });
 
-    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
+  //   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    
 };
 d3.json("/dataGraph", callback);
 dataset = callback;
