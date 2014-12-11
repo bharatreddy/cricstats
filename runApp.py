@@ -39,36 +39,17 @@ def dataGraph():
     # Query the database for stats related to the graph.
     queryGraph = """
             SELECT Batsman, Bowler, StrikeRate, Matches, Dismissed
-            FROM PlayerGraph limit 10
+            FROM PlayerGraph
+            ORDER BY Balls DESC
+            LIMIT 100
             """
     db.query( queryGraph )
     graphSmryRet = db.store_result().fetch_row( maxrows=0 )
     graphdet = [ s for s in graphSmryRet ]
-    # linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
-    #     'Matches':graphdet[r][3],'Dismissed':graphdet[r][4] }
-    #      for r in range( len( graphdet ) ) ] )
-    linksList = [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
+    linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
         'Matches':graphdet[r][3],'Dismissed':graphdet[r][4] }
-         for r in range( len( graphdet ) ) ]
-    queryNodes = """
-            SELECT Name From Batsman as Name
-            UNION
-            SELECT Name From Bowler as Name
-            limit 10
-            """
-    db.query( queryNodes )
-    nodesSmryRet = db.store_result().fetch_row( maxrows=0 )
-    nodesdet = [ s for s in nodesSmryRet ]
-    # nodesList = json.dumps( [ { 'Name': nodesdet[r][0] }
-    #      for r in range( len( nodesdet ) ) ] )
-    nodesList = [ { 'Name': nodesdet[r][0] }
-         for r in range( len( nodesdet ) ) ]
-    graphJson = {}
-    graphJson['nodes'] = nodesList
-    graphJson['links'] = linksList
-    # graphJson = linksList + nodesList
-    # print nodesList
-    return json.dumps(linksList)#nodesList + linksList
+         for r in range( len( graphdet ) ) ] )
+    return linksList
 
 @app.route("/")
 def hello():

@@ -20,7 +20,6 @@ var callback = function (dataGraph) {
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
   });
-  console.log(nodes)
   var width = 960,
     height = 500;
 
@@ -39,7 +38,7 @@ var callback = function (dataGraph) {
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
-    .data(["licensing"])
+    .data(["connectionstyle"])
   .enter().append("marker")
     .attr("id", function(d) { return d; })
     .attr("viewBox", "0 -5 10 10")
@@ -54,8 +53,8 @@ svg.append("defs").selectAll("marker")
 var path = svg.append("g").selectAll("path")
     .data(force.links())
   .enter().append("path")
-    .attr("class", function(d) { return "link " + "licensing"; })
-    .attr("marker-end", function(d) { return "url(#" + "licensing" + ")"; });
+    .attr("class", function(d) { return "link " + "connectionstyle"; })
+    .attr("marker-end", function(d) { return "url(#" + "connectionstyle" + ")"; });
 
 var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
@@ -68,6 +67,7 @@ var text = svg.append("g").selectAll("text")
   .enter().append("text")
     .attr("x", 8)
     .attr("y", ".31em")
+    .attr("font-size","10")
     .text(function(d) { return d.name; });
 
 // Use elliptical arc path segments to doubly-encode directionality.
