@@ -44,25 +44,31 @@ def dataGraph():
     db.query( queryGraph )
     graphSmryRet = db.store_result().fetch_row( maxrows=0 )
     graphdet = [ s for s in graphSmryRet ]
-    linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
+    # linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
+    #     'Matches':graphdet[r][3],'Dismissed':graphdet[r][4] }
+    #      for r in range( len( graphdet ) ) ] )
+    linksList = [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
         'Matches':graphdet[r][3],'Dismissed':graphdet[r][4] }
-         for r in range( len( graphdet ) ) ] )
+         for r in range( len( graphdet ) ) ]
     queryNodes = """
-            SELECT Name From Batsman
+            SELECT Name From Batsman as Name
             UNION
-            SELECT Name From Bowler
+            SELECT Name From Bowler as Name
             limit 10
             """
     db.query( queryNodes )
     nodesSmryRet = db.store_result().fetch_row( maxrows=0 )
     nodesdet = [ s for s in nodesSmryRet ]
-    nodesList = json.dumps( [ { 'Batsman': nodesdet[r][0] }
-         for r in range( len( nodesdet ) ) ] )
+    # nodesList = json.dumps( [ { 'Name': nodesdet[r][0] }
+    #      for r in range( len( nodesdet ) ) ] )
+    nodesList = [ { 'Name': nodesdet[r][0] }
+         for r in range( len( nodesdet ) ) ]
     graphJson = {}
-    graphJson['links'] = linksList
     graphJson['nodes'] = nodesList
-    print nodesList
-    return nodesList
+    graphJson['links'] = linksList
+    # graphJson = linksList + nodesList
+    # print nodesList
+    return json.dumps(graphJson)#nodesList + linksList
 
 @app.route("/")
 def hello():

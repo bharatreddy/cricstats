@@ -2,12 +2,12 @@
 // Based on the D3 Scatter Plot Example --> http://bl.ocks.org/weiglemc/6185069
 var callback = function (dataGraph) {
   
-  var dataset = new Array ();
-  for (var i = 0; i < dataGraph.length; i++) {
-    dataset[i] = [ dataGraph[i]['Batsman'], dataGraph[i]['Bowler'], 
-    dataGraph[i]['StrikeRate'], dataGraph[i]['Matches'], dataGraph[i]['Dismissed'] ];
-  }
-
+  // var dataset = new Array ();
+  // for (var i = 0; i < dataGraph.length; i++) {
+  //   dataset[i] = [ dataGraph[i]['Batsman'], dataGraph[i]['Bowler'], 
+  //   dataGraph[i]['StrikeRate'], dataGraph[i]['Matches'], dataGraph[i]['Dismissed'] ];
+  // }
+console.log(dataGraph)
 var width = 960,
     height = 500
 
@@ -55,7 +55,7 @@ var force = d3.layout.force()
   //       .attr("y2", function(d) { return d.Bowler.y; });
 
   //   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-    
+
 };
 d3.json("/dataGraph", callback);
 dataset = callback;
