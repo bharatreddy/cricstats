@@ -68,7 +68,7 @@ def dataGraph():
     graphJson['links'] = linksList
     # graphJson = linksList + nodesList
     # print nodesList
-    return json.dumps(graphJson)#nodesList + linksList
+    return json.dumps(linksList)#nodesList + linksList
 
 @app.route("/")
 def hello():
