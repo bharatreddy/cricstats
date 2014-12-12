@@ -14,6 +14,12 @@ var callback = function (dataGraph) {
     currGraph['Balls'] = dataGraph[i]['Balls']
     currGraph['StrikeRate'] = dataGraph[i]['StrikeRate']
     currGraph['Dismissed'] = dataGraph[i]['Dismissed']
+    // Finall we need a way to calculate the domination - 
+    // who is dominating - bowler or the batsman?, we'll take into
+    // account no.of dismissals/ no.of matches played and strike rate
+    // NOTE we multiply dismissals by 150 to signify them
+    currGraph['DominationScore'] = currGraph['StrikeRate'] -
+     currGraph['Dismissed']*150./currGraph['Matches']
     links[i] = currGraph
   }
 
@@ -82,7 +88,7 @@ var path = svg.append("g").selectAll("path")
     .data(force.links())
   .enter().append("path")
     .attr("class", "link")
-    .style("stroke", function(d) { return outColor(d.StrikeRate); })
+    .style("stroke", function(d) { return outColor(d.DominationScore); })
     .attr("marker-end", function(d) { return "url(#" + "connectionstyle" + ")"; })
     .style('stroke-width', 5)
     .on("mouseover", function(d) {
