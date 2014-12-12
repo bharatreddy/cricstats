@@ -70,7 +70,7 @@ var callback = function (dataBatsman) {
 // var cValue = function(d) { return d.Matches;},
 //     color = d3.scale.category10();
   var outageThresholds = [ 1, 10, 25, 50, 100 ];
-  var interpolateColor = d3.interpolateHcl("#F0F8FF", "#08457E");
+  var interpolateColor = d3.interpolateHcl("#bcbd22", "#08457E");//d3.interpolateHcl("#F0F8FF", "#08457E");
   var thresholdColors = d3.range(outageThresholds.length + 1).map(function(d, i) { return interpolateColor(i / outageThresholds.length); })
   // ['rgb(253,208,162)','rgb(253,174,107)','rgb(253,141,60)','rgb(241,105,19)','rgb(217,72,1)','rgb(140,45,4)'];
   var outColor = d3.scale.threshold()

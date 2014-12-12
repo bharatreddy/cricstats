@@ -58,13 +58,31 @@ svg.append("defs").selectAll("marker")
   var tooltip = d3.select("#d3GraphPlyr").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
+// color range to be used
+var outageThresholds = [ -50, 0, 75, 100, 125, 150, 175 ];
+var interpolateColor = d3.interpolateHcl("#bcbd22", "#08457E");//d3.scale.category10();
+var thresholdColors = d3.range(outageThresholds.length + 1).map(function(d, i) { return interpolateColor(i / outageThresholds.length); })
+var outColor = d3.scale.threshold()
+               .domain(outageThresholds)
+               .range(thresholdColors);
+// We have different type of legend labels here
+legendThresholds = [ outageThresholds[0], 
+ outageThresholds[Math.round((outageThresholds.length - 1) / 2)],
+ outageThresholds[outageThresholds.length-1] ]
+legendLabels = [ "Bowler dominates", "Neutral","Batsman Dominates" ]
+var legendColors = d3.range(legendThresholds.length + 1).map(function(d, i) { return interpolateColor(i / legendThresholds.length); })
+var legendColor = d3.scale.threshold()
+               .domain(legendThresholds)
+               .range(legendColors);
 
+
+var commasFormatter = d3.format(",");
 // The link/paths between players
 var path = svg.append("g").selectAll("path")
     .data(force.links())
   .enter().append("path")
     .attr("class", "link")
-    .style("stroke", "steelblue")
+    .style("stroke", function(d) { return outColor(d.StrikeRate); })
     .attr("marker-end", function(d) { return "url(#" + "connectionstyle" + ")"; })
     .style('stroke-width', 5)
     .on("mouseover", function(d) {
@@ -100,6 +118,27 @@ var text = svg.append("g").selectAll("text")
     .attr("y", ".31em")
     .attr("font-size","12")
     .text(function(d) { return d.name; });
+
+// now build the legend
+legend = svg.selectAll(".lentry")
+                    .data(legendColor.domain())
+                    .enter()
+                    .append("g")
+                    .attr("class","leg")
+ legend.append("rect")
+          .attr("y", function(d,i) { return(i*40)})
+          .attr("x", function(d,i) { return(50)})
+          .attr("width","20px")
+          .attr("height","40px")
+          .attr("fill", function(d) { return legendColor(d) ; })
+          .attr("stroke","#7f7f7f")
+          .attr("stroke-width","0.5");
+legend.append("text")
+          .attr("class", "legText")
+          .text(function(d, i) { return legendLabels[i]; })
+          .attr("x", 75)
+          .attr("fill", "#fff")
+          .attr("y", function(d, i) { return (40 * i) + 20 + 4; });
 
 // Use elliptical arc path segments to doubly-encode directionality.
 function tick() {
