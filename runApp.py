@@ -39,15 +39,17 @@ def dataGraph():
     # Query the database for stats related to the graph.
     srchPlyr = 'CH Gayle'
     srchBy = "Balls"
-    queryGraph = "SELECT Batsman, Bowler, StrikeRate, Matches, Dismissed " + \
+    queryGraph = "SELECT Batsman, Bowler, Runs, Balls, StrikeRate, Matches, Dismissed " + \
                 "FROM PlayerGraph WHERE Batsman = '" + srchPlyr + "'" + \
                 "OR Bowler = '" + srchPlyr + "'" + \
                 "ORDER BY " + srchBy + " DESC LIMIT 25"
     db.query( queryGraph )
     graphSmryRet = db.store_result().fetch_row( maxrows=0 )
     graphdet = [ s for s in graphSmryRet ]
-    linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1], 'StrikeRate':graphdet[r][2], \
-        'Matches':graphdet[r][3],'Dismissed':graphdet[r][4] }
+    linksList = json.dumps( [ { 'Batsman': graphdet[r][0], 'Bowler':graphdet[r][1],\
+     'Runs':graphdet[r][2], 'Balls':graphdet[r][3], \
+        'StrikeRate':graphdet[r][4], \
+        'Matches':graphdet[r][5],'Dismissed':graphdet[r][6] }
          for r in range( len( graphdet ) ) ] )
     return linksList
 

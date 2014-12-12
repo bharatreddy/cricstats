@@ -10,6 +10,10 @@ var callback = function (dataGraph) {
     currGraph['source'] = dataGraph[i]['Batsman']
     currGraph['target'] = dataGraph[i]['Bowler']
     currGraph['Matches'] = dataGraph[i]['Matches']
+    currGraph['Runs'] = dataGraph[i]['Runs']
+    currGraph['Balls'] = dataGraph[i]['Balls']
+    currGraph['StrikeRate'] = dataGraph[i]['StrikeRate']
+    currGraph['Dismissed'] = dataGraph[i]['Dismissed']
     links[i] = currGraph
   }
 
@@ -42,20 +46,46 @@ svg.append("defs").selectAll("marker")
   .enter().append("marker")
     .attr("id", function(d) { return d; })
     .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 15)
-    .attr("refY", -1.5)
-    .attr("markerWidth", 6)
-    .attr("markerHeight", 6)
+    .attr("refX", 12)
+    .attr("refY", 0.15)
+    .attr("markerWidth", 3)
+    .attr("markerHeight", 3)
     .attr("orient", "auto")
   .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
+// add the tooltip area to the webpage
+  var tooltip = d3.select("#d3GraphPlyr").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+// The link/paths between players
 var path = svg.append("g").selectAll("path")
     .data(force.links())
   .enter().append("path")
     .attr("class", "link")
     .style("stroke", "steelblue")
-    .attr("marker-end", function(d) { return "url(#" + "connectionstyle" + ")"; });
+    .attr("marker-end", function(d) { return "url(#" + "connectionstyle" + ")"; })
+    .style('stroke-width', 5)
+    .on("mouseover", function(d) {
+          tooltip.transition()
+               .duration(200)
+               .style("opacity", 1.);
+          tooltip.html( "Matches " + d.Matches 
+            + "<br/> Dismissals : " + d.Dismissed
+            + "<br/> Runs : " + d.Runs
+            + "<br/> Balls : " + d.Balls
+            + "<br/> StrikeRate : " + d.StrikeRate )
+               .style("left", 725 + "px")
+               .style("top", 70 + "px");
+      })
+      .on("mouseout", function(d) {
+          tooltip.transition()
+               .duration(500)
+               .style("opacity", 0);
+      });
+
+
 
 var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
