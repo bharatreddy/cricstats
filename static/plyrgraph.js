@@ -30,7 +30,7 @@ var callback = function (dataGraph) {
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
   });
-  var width = 960,
+  var width = 900,
     height = 500;
 
   var force = d3.layout.force()
