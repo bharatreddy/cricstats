@@ -27,7 +27,7 @@ var callback = function (dataGraph) {
     .nodes(d3.values(nodes))
     .links(links)
     .size([width, height])
-    .linkDistance(60)
+    .linkDistance(200)
     .charge(-300)
     .on("tick", tick)
     .start();
@@ -53,21 +53,22 @@ svg.append("defs").selectAll("marker")
 var path = svg.append("g").selectAll("path")
     .data(force.links())
   .enter().append("path")
-    .attr("class", function(d) { return "link " + "connectionstyle"; })
+    .attr("class", "link")
+    .style("stroke", "steelblue")
     .attr("marker-end", function(d) { return "url(#" + "connectionstyle" + ")"; });
 
 var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
   .enter().append("circle")
-    .attr("r", 6)
+    .attr("r", 8)
     .call(force.drag);
 
 var text = svg.append("g").selectAll("text")
     .data(force.nodes())
   .enter().append("text")
-    .attr("x", 8)
+    .attr("x", 12)
     .attr("y", ".31em")
-    .attr("font-size","10")
+    .attr("font-size","12")
     .text(function(d) { return d.name; });
 
 // Use elliptical arc path segments to doubly-encode directionality.

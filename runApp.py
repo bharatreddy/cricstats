@@ -37,12 +37,12 @@ def dataBowler():
 @app.route("/dataGraph")
 def dataGraph():
     # Query the database for stats related to the graph.
-    queryGraph = """
-            SELECT Batsman, Bowler, StrikeRate, Matches, Dismissed
-            FROM PlayerGraph
-            ORDER BY Balls DESC
-            LIMIT 100
-            """
+    srchPlyr = 'CH Gayle'
+    srchBy = "Balls"
+    queryGraph = "SELECT Batsman, Bowler, StrikeRate, Matches, Dismissed " + \
+                "FROM PlayerGraph WHERE Batsman = '" + srchPlyr + "'" + \
+                "OR Bowler = '" + srchPlyr + "'" + \
+                "ORDER BY " + srchBy + " DESC LIMIT 25"
     db.query( queryGraph )
     graphSmryRet = db.store_result().fetch_row( maxrows=0 )
     graphdet = [ s for s in graphSmryRet ]
