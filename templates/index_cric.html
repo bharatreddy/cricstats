@@ -20,7 +20,23 @@
     <!-- Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
-
+    <script src="static/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="static/jquery-ui.css">
+    <script src="static/jquery-ui.js"></script>
+    <!-- The searchbar code -->
+    <script type="text/javascript">
+      $(function() {
+        $( "#playerSrch" ).autocomplete({
+          
+          source: function( request, response ) {
+              $.getJSON("/searchPlayers", {
+                  search: $('input[name="playerSrch"]').val()
+              }, response);
+          }
+        
+        });
+      });
+    </script>
     <!-- Include the d3 chart -->
     <script src="static/d3.v3.min.js" charset="utf-8"></script>
     <!-- css for the d3 tooltip -->
@@ -77,12 +93,12 @@
 
     #d3GraphPlyr {
     height:600px;
-    width:1000px;
+    width:850px;
     float:left;
     }
     #right {
     height:600px;
-    width:100px;
+    width:160px;
     float:right;
     padding-top: 100px;
     padding-left: -10px;
@@ -90,8 +106,8 @@
     .dropdown-menu{
         top:22%;
     }
-    #dropdownMenu1{
-        margin-bottom: 50px;
+    #dropdownMenu2{
+        margin-top: 50px;
     }
 
     </style>
@@ -172,17 +188,9 @@
                 <hr>
                 </div>
                 
-                <div id="right" class="dropdown">
+                <div id="right" class="dropdown ui-widget">
 
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                        Player
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Balls Faced</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Strikerate</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Dismissals</a></li>
-                      </ul>
+                    <input class="form-control" name="playerSrch" id="playerSrch" value="" placeholder="player (last) name">
 
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
                         Order by
@@ -216,7 +224,7 @@
     <script type="text/javascript" src="static/bowlerchart.js"></script>
     <script type="text/javascript" src="static/plyrgraph.js"></script>
     <!-- jQuery -->
-    <script src="static/js/jquery.js"></script>
+    
 
     <!-- Bootstrap Core JavaScript -->
     <script src="static/js/bootstrap.min.js"></script>
