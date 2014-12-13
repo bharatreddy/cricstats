@@ -53,6 +53,18 @@ def dataGraph():
          for r in range( len( graphdet ) ) ] )
     return linksList
 
+# SELECT Name FROM Bowler WHERE Name LIKE '%D%' UNION SELECT Name FROM Batsman WHERE Name LIKE '%D%';
+@app.route('/searchPlayers')
+def searchPlayers():
+    search = request.args.get('search')
+    # queryStr = "select login from userdetail where login like '"+search+"%' limit 10;"
+    querySrchStr = "SELECT Name FROM Bowler WHERE Name LIKE " + "'%" + search + "%' " +\
+                    "UNION SELECT Name FROM Batsman WHERE Name LIKE " + "'%" + search + "%' "
+    db.query( querySrchStr )
+    query_results = db.store_result().fetch_row( maxrows=0 )
+    resOut = [ res[0] for res in query_results ]
+    return json.dumps( resOut )
+
 @app.route("/")
 def hello():
     return render_template('index_cric.html')
