@@ -37,6 +37,15 @@
         });
       });
     </script>
+    <!-- Script to update the player network graph -->
+    <script type="text/javascript">
+        function plyrGrphUpdt() {
+            // get the updated player name and call the function again
+            var updtddplayerName = document.getElementById('playerSrch');
+            callFuncStr = "/dataGraph/" + updtddplayerName.value
+            JavaScript:d3.json(callFuncStr, grphCallback)
+        }
+    </script>
     <!-- Include the d3 chart -->
     <script src="static/d3.v3.min.js" charset="utf-8"></script>
     <!-- css for the d3 tooltip -->
@@ -112,10 +121,11 @@
 
     </style>
 
+
 </head>
 
 <body>
-<form id='myform' method='get' action='JavaScript:d3.json("/dataGraph", grphCallback)'>
+<form id='myform' method='get' action='JavaScript:plyrGrphUpdt()'>
     <div class="brand">Cricket Statistics</div>
     <div class="address-bar">Statistics and cricket predictions</div>
 

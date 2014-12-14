@@ -34,11 +34,13 @@ def dataBowler():
         'RunRate':bowlerdet[r][3],'Matches':bowlerdet[r][4], 'Wickets':bowlerdet[r][5] }
          for r in range( len( bowlerdet ) ) ] )
 
-@app.route("/dataGraph")
-def dataGraph():
+@app.route("/dataGraph/<srchPlyr>")
+def dataGraph(srchPlyr=None):
     # # Query the database for stats related to the graph.
-    srchPlyr = request.args.get('playerSrch')
-    print srchPlyr, '-----------helloooooooooooo'
+    # srchPlyr = request.args.get('playerSrch')
+    # print '-----------helloooooooooooo-->', srchPlyr
+    srchPlyr = srchPlyr
+    print srchPlyr, 'srsjdfhksdhfwheoruhsdjfnkj'
     if srchPlyr is None:
         srchPlyr = 'MS DHONI'
     srchBy = "Balls"
@@ -56,7 +58,6 @@ def dataGraph():
          for r in range( len( graphdet ) ) ] )
     return linksList
 
-# SELECT Name FROM Bowler WHERE Name LIKE '%D%' UNION SELECT Name FROM Batsman WHERE Name LIKE '%D%';
 @app.route('/searchPlayers')
 def searchPlayers():
     search = request.args.get('search')
@@ -67,11 +68,11 @@ def searchPlayers():
     resOut = [ res[0] for res in query_results ]
     return json.dumps( resOut )
 
-@app.route("/updtGraph")
-def updateGraph():
-    srchPlyr = request.args.get('playerSrch')
-    print srchPlyr, '-----------hellooooo'
-    return render_template('index_cric.html')
+# @app.route("/updtGraph")
+# def updateGraph():
+#     srchPlyr = request.args.get('playerSrch')
+#     print srchPlyr, '-----------hellooooo'
+#     return render_template('index_cric.html')
 
 @app.route("/")
 def hello():

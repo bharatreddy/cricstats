@@ -24,7 +24,6 @@ var grphCallback = function (dataGraph) {
   }
 
   var nodes = {};
-
   // Compute the distinct nodes from the links.
   links.forEach(function(link) {
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
@@ -41,8 +40,11 @@ var grphCallback = function (dataGraph) {
     .charge(-300)
     .on("tick", tick)
     .start();
-
+  // Remove any existing elements from div
+  // this is especially required when we are 
+  // updating the graph.
   jQuery('#d3GraphPlyr').html('');
+  // Append a new svg to the div
   var svg = d3.select("#d3GraphPlyr").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -166,7 +168,7 @@ function transform(d) {
 }
 
 };
-d3.json("/dataGraph", grphCallback);
+d3.json("/dataGraph/MS Dhoni", grphCallback);
 links = grphCallback;
 // window.open('www.yourdomain.com','_blank');
 // var data = [[5,3], [10,17], [15,4], [2,8]];
