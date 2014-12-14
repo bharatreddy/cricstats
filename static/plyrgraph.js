@@ -1,8 +1,7 @@
 // Written by Bharat Kunduri
 // Based on the D3 Scatter Plot Example --> http://bl.ocks.org/weiglemc/6185069
 var grphCallback = function (dataGraph) {
-  console.log("Here!")
-  console.log(dataGraph)
+
   var links = new Array ();
   for (var i = 0; i < dataGraph.length; i++) {
     // links[i] = [ dataGraph[i]['source'], dataGraph[i]['target'], 
@@ -43,6 +42,7 @@ var grphCallback = function (dataGraph) {
     .on("tick", tick)
     .start();
 
+  jQuery('#d3GraphPlyr').html('');
   var svg = d3.select("#d3GraphPlyr").append("svg")
     .attr("width", width)
     .attr("height", height);

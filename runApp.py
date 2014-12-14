@@ -37,12 +37,10 @@ def dataBowler():
 @app.route("/dataGraph")
 def dataGraph():
     # # Query the database for stats related to the graph.
-    # srchPlyr = request.args.get('playerSrch')
-    # print srchPlyr, '-----------helloooooooooooo'
-    # if srchPlyr is None:
-    #     srchPlyr = 'MS DHONI'
-    print "In python!!!!!!!!!!!"
-    srchPlyr = 'MS DHONI'
+    srchPlyr = request.args.get('playerSrch')
+    print srchPlyr, '-----------helloooooooooooo'
+    if srchPlyr is None:
+        srchPlyr = 'MS DHONI'
     srchBy = "Balls"
     queryGraph = "SELECT Batsman, Bowler, Runs, Balls, StrikeRate, Matches, Dismissed " + \
                 "FROM PlayerGraph WHERE Batsman = '" + srchPlyr + "'" + \
