@@ -42,7 +42,17 @@
         function plyrGrphUpdt() {
             // get the updated player name and call the function again
             var updtddplayerName = document.getElementById('playerSrch');
-            callFuncStr = "/dataGraph/" + updtddplayerName.value
+            callFuncStr = "/dataGraph/" + updtddplayerName.value + "/DefaultOrder"
+            JavaScript:d3.json(callFuncStr, grphCallback)
+        }
+        function updtGraphOrder(inOrder){
+            // get the updated player name and call the function again
+            var updtddplayerName = document.getElementById('playerSrch');
+            var currPlayerName = updtddplayerName.value
+            if ( currPlayerName == "" ){
+                currPlayerName = "DefaultPlayer"
+            }
+            callFuncStr = "/dataGraph/" + currPlayerName + "/" + inOrder
             JavaScript:d3.json(callFuncStr, grphCallback)
         }
     </script>
@@ -206,10 +216,10 @@
                         Order by
                         <span class="caret"></span>
                       </button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Balls Faced</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Strikerate</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Dismissals</a></li>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2" id="dropdownMenuOrder">
+                        <li role="presentation" value="Balls"><a role="menuitem" tabindex="-1" href="javascript:updtGraphOrder('Balls')">Balls Faced</a></li>
+                        <li role="presentation" value="Strikerate"><a role="menuitem" tabindex="-1" href="javascript:updtGraphOrder('StrikeRate')">Strikerate</a></li>
+                        <li role="presentation" value="Dismissals"><a role="menuitem" tabindex="-1" href="javascript:updtGraphOrder('Dismissed')">Dismissals</a></li>
                       </ul>
                 </div>
                 <br style="clear:both;"/>

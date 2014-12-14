@@ -34,16 +34,19 @@ def dataBowler():
         'RunRate':bowlerdet[r][3],'Matches':bowlerdet[r][4], 'Wickets':bowlerdet[r][5] }
          for r in range( len( bowlerdet ) ) ] )
 
-@app.route("/dataGraph/<srchPlyr>")
-def dataGraph(srchPlyr=None):
+@app.route("/dataGraph/<srchPlyr>/<srchBy>")
+def dataGraph(srchPlyr='DefaultPlayer',srchBy='DefaultOrder'):
     # # Query the database for stats related to the graph.
     # srchPlyr = request.args.get('playerSrch')
     # print '-----------helloooooooooooo-->', srchPlyr
     srchPlyr = srchPlyr
-    print srchPlyr, 'srsjdfhksdhfwheoruhsdjfnkj'
+    srchBy = srchBy
+    if srchPlyr == 'DefaultPlayer':
+        srchPlyr = 'MS Dhoni'
+    if srchBy == 'DefaultOrder':
+        srchBy = "Balls"
     if srchPlyr is None:
         srchPlyr = 'MS DHONI'
-    srchBy = "Balls"
     queryGraph = "SELECT Batsman, Bowler, Runs, Balls, StrikeRate, Matches, Dismissed " + \
                 "FROM PlayerGraph WHERE Batsman = '" + srchPlyr + "'" + \
                 "OR Bowler = '" + srchPlyr + "'" + \

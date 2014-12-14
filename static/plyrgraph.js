@@ -19,7 +19,7 @@ var grphCallback = function (dataGraph) {
     // account no.of dismissals/ no.of matches played and strike rate
     // NOTE we multiply dismissals by 150 to signify them
     currGraph['DominationScore'] = currGraph['StrikeRate'] -
-     currGraph['Dismissed']*150./currGraph['Matches']
+    currGraph['Dismissed']*150./currGraph['Matches']
     links[i] = currGraph
   }
 
@@ -168,7 +168,7 @@ function transform(d) {
 }
 
 };
-d3.json("/dataGraph/MS Dhoni", grphCallback);
+d3.json("/dataGraph/DefaultPlayer/DefaultOrder", grphCallback);
 links = grphCallback;
 // window.open('www.yourdomain.com','_blank');
 // var data = [[5,3], [10,17], [15,4], [2,8]];
