@@ -36,10 +36,13 @@ def dataBowler():
 
 @app.route("/dataGraph")
 def dataGraph():
-    # Query the database for stats related to the graph.
-    srchPlyr = request.args.get('search')
-    if srchPlyr is None:
-        srchPlyr = 'MS DHONI'
+    # # Query the database for stats related to the graph.
+    # srchPlyr = request.args.get('playerSrch')
+    # print srchPlyr, '-----------helloooooooooooo'
+    # if srchPlyr is None:
+    #     srchPlyr = 'MS DHONI'
+    print "In python!!!!!!!!!!!"
+    srchPlyr = 'MS DHONI'
     srchBy = "Balls"
     queryGraph = "SELECT Batsman, Bowler, Runs, Balls, StrikeRate, Matches, Dismissed " + \
                 "FROM PlayerGraph WHERE Batsman = '" + srchPlyr + "'" + \
@@ -68,6 +71,8 @@ def searchPlayers():
 
 @app.route("/updtGraph")
 def updateGraph():
+    srchPlyr = request.args.get('playerSrch')
+    print srchPlyr, '-----------hellooooo'
     return render_template('index_cric.html')
 
 @app.route("/")

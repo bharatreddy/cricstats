@@ -1,7 +1,8 @@
 // Written by Bharat Kunduri
 // Based on the D3 Scatter Plot Example --> http://bl.ocks.org/weiglemc/6185069
-var callback = function (dataGraph) {
-  
+var grphCallback = function (dataGraph) {
+  console.log("Here!")
+  console.log(dataGraph)
   var links = new Array ();
   for (var i = 0; i < dataGraph.length; i++) {
     // links[i] = [ dataGraph[i]['source'], dataGraph[i]['target'], 
@@ -165,8 +166,8 @@ function transform(d) {
 }
 
 };
-d3.json("/dataGraph", callback);
-links = callback;
+d3.json("/dataGraph", grphCallback);
+links = grphCallback;
 // window.open('www.yourdomain.com','_blank');
 // var data = [[5,3], [10,17], [15,4], [2,8]];
 // console.log( data )
