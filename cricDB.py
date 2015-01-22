@@ -1,7 +1,7 @@
 if __name__ == "__main__":
     import cricDB
     dbo = cricDB.DbUtils()
-    # dbo.create_main_tables()
+    dbo.create_main_tables()
     dbo.create_innings_tables()
     dbo.close()
 

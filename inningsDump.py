@@ -27,8 +27,8 @@ class InnData(object):
         import yaml
         import os
         # Directory of ipl data
-        iplDir = '/Users/bharat/Desktop/cric/ipl/'
-        allDir = '/Users/bharat/Desktop/cric/all/'
+        iplDir = '/home/bharat/Documents/misc/ipl/'
+        allDir = '/home/bharat/Documents/misc/all/'
         # get all the 'yaml' files in the directory
         cricFiles = []
         # we also need a list of the file names (not including the dir)
